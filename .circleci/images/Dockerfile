@@ -1,4 +1,5 @@
-FROM circleci/node:10
+FROM circleci/node:10 as node
+FROM circleci/openjdk:latest
 
 # 
 # !!!!!!!!!!!!!!!!!!!!! CAUTION !!!!!!!!!!!!!!!!!!!!!
@@ -8,18 +9,15 @@ FROM circleci/node:10
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install JRE for firebase emulator
-RUN sudo apt-get update && \
-    sudo apt-get install -y default-jre && \
-    sudo rm -rf /var/lib/apt/lists  && \
-# Install latest dockerize
-    DOCKERIZE_VERSION=$(sudo curl --fail --retry 3 -Ls -o /dev/null -w %{url_effective} 'https://github.com/jwilder/dockerize/releases/latest' | sudo sed 's:.*/::') && \
-    sudo wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
-    sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
-    sudo rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz  && \
-# Install prism/mock for OpenAPI sample data validating
-    curl -L https://raw.githack.com/stoplightio/prism/master/install | sudo sh && \
-# Install Pyright for linting python code
-    sudo npm install -g pyright
+RUN env
+
+# copy node binary to OpenJDK image
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/bin/npx /usr/local/bin/
+COPY --from=node /usr/local/lib /usr/local/lib/
+
+
+# create symlink
+RUN sudo ln -sfn /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 LABEL com.circleci.preserve-entrypoint=true
