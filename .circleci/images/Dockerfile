@@ -18,6 +18,8 @@ RUN sudo apt-get update && \
     sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && \
     sudo rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz  && \
 # Install prism/mock for OpenAPI sample data validating
-    curl -L https://raw.githack.com/stoplightio/prism/master/install | sudo sh
+    curl -L https://raw.githack.com/stoplightio/prism/master/install | sudo sh && \
+# Install Pyright for linting python code
+    npm install -g pyright
 
 LABEL com.circleci.preserve-entrypoint=true
