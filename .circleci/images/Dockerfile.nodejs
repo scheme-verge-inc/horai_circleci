@@ -1,5 +1,4 @@
-FROM circleci/node:10 as node
-FROM circleci/openjdk:latest
+FROM circleci/node:10
 
 # 
 # !!!!!!!!!!!!!!!!!!!!! CAUTION !!!!!!!!!!!!!!!!!!!!!
@@ -9,13 +8,8 @@ FROM circleci/openjdk:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# copy node binary to OpenJDK image
-COPY --from=node /usr/local/bin/node /usr/local/bin/
-COPY --from=node /usr/local/lib /usr/local/lib/
-
-
-# create symlink
-RUN sudo ln -sfn /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
-    sudo ln -sfn /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+# Install JRE for firebase emulator
+RUN sudo apt-get install -y default-jre && \
+    sudo rm -rf /var/lib/apt/lists
 
 LABEL com.circleci.preserve-entrypoint=true
