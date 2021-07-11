@@ -1,4 +1,4 @@
-FROM circleci/node:10
+FROM cimg/node:14.17.3
 
 # 
 # !!!!!!!!!!!!!!!!!!!!! CAUTION !!!!!!!!!!!!!!!!!!!!!
