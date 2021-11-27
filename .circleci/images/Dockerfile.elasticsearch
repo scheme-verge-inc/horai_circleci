@@ -1,0 +1,6 @@
+FROM elasticsearch:7.14.1
+
+RUN elasticsearch-plugin install analysis-kuromoji && \
+    elasticsearch-plugin install analysis-smartcn && \
+    elasticsearch-plugin install analysis-nori && \
+    elasticsearch-plugin install analysis-icu
