@@ -1,8 +1,9 @@
+ARG NODE_VERSION=18.17.0
 ARG PYTHON_VERSION=3.9
 
-FROM circleci/node:10 AS node
+FROM cimg/node:${NODE_VERSION} AS node
 
-FROM circleci/python:${PYTHON_VERSION}
+FROM cimg/python:${PYTHON_VERSION}
 
 # 
 # !!!!!!!!!!!!!!!!!!!!! CAUTION !!!!!!!!!!!!!!!!!!!!!
