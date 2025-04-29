@@ -1,5 +1,8 @@
-FROM circleci/node:10 as node
-FROM circleci/python:3.7.7
+ARG PYTHON_VERSION=3.9
+
+FROM circleci/node:10 AS node
+
+FROM circleci/python:${PYTHON_VERSION}
 
 # 
 # !!!!!!!!!!!!!!!!!!!!! CAUTION !!!!!!!!!!!!!!!!!!!!!
